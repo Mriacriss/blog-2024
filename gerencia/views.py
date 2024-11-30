@@ -94,6 +94,11 @@ def index(request):
 
 def categoria_listagem(request):
     categorias = Categoria.objects.all()
+
+    search_query = request.GET.get('termo') 
+    if search_query:
+        categorias = categorias.filter(nome__icontains=search_query)
+
     contexto = {
         'categorias': categorias,
     }
