@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 
 from .forms import CategoriaForm, NoticiaFilterForm, NoticiaForm
@@ -98,6 +99,10 @@ def categoria_listagem(request):
     search_query = request.GET.get('termo') 
     if search_query:
         categorias = categorias.filter(nome__icontains=search_query)
+
+    paginator = Paginator(categorias, 10)
+    page = request.GET.get('page')  
+    categorias = paginator.get_page(page)
 
     contexto = {
         'categorias': categorias,
