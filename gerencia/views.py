@@ -94,6 +94,7 @@ def index(request):
     return render(request, 'gerencia/index.html', contexto)
 
 
+@login_required(login_url='usuarios:login_redirect')
 def categoria_listagem(request):
     categorias = Categoria.objects.all().annotate(nome_lower=Lower('nome')).order_by('nome_lower')
 
@@ -110,7 +111,7 @@ def categoria_listagem(request):
     }
     return render(request, 'gerencia/categoria_listagem.html', contexto)    
 
-
+@login_required(login_url='usuarios:login_redirect')
 def categoria_cadastro(request):
     if request.method == 'POST':
         form = CategoriaForm(request.POST)
@@ -125,6 +126,7 @@ def categoria_cadastro(request):
     }
     return render(request, 'gerencia/categoria_form.html', contexto)
 
+@login_required(login_url='usuarios:login_redirect')
 def categoria_editar(request, id):
     categoria = Categoria.objects.get(id=id)
     if request.method == 'POST':
@@ -140,6 +142,7 @@ def categoria_editar(request, id):
     }
     return render(request, 'gerencia/categoria_form.html', contexto)
 
+@login_required(login_url='usuarios:login_redirect')
 def categoria_excluir(request, id):
     categoria = Categoria.objects.get(id=id)
     categoria.delete()
